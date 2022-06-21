@@ -1,4 +1,4 @@
-package ajbc.connection;
+package ajbc.utils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

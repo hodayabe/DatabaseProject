@@ -1,25 +1,35 @@
 package ajbc.models;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
 public class Room {
 	
 	private ObjectId id;
 	private int number;
+	@BsonProperty(value="has_bath")
 	private boolean hasBath;
+	private int capacity;
 	
-	public Room(ObjectId id, int number, boolean hasBath) {
-		this.id = id;
+	public Room(int number, boolean hasBath, int capacity) {
 		this.number = number;
 		this.hasBath = hasBath;
-	}
-	
-	public Room( int number, boolean hasBath) {
-		this.number = number;
-		this.hasBath = hasBath;
+		this.capacity = capacity;
 	}
 
-	public Room() {}
+	public Room()
+	{
+		
+	}
+	
+	
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
 
 	public ObjectId getId() {
 		return id;
@@ -44,14 +54,7 @@ public class Room {
 	public void setHasBath(boolean hasBath) {
 		this.hasBath = hasBath;
 	}
-
-	@Override
-	public String toString() {
-		return "Room [id=" + id + ", number=" + number + ", hasBath=" + hasBath + "]";
-	}
 	
 	
-	
-
 
 }

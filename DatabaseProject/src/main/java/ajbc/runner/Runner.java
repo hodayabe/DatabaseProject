@@ -1,113 +1,48 @@
 package ajbc.runner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
-import org.bson.Document;
-import org.bson.types.ObjectId;
 
-import com.mongodb.ConnectionString;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+import org.slf4j.LoggerFactory;
+
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import ajbc.connection.MyConnectionString;
-
+import ajbc.utils.MyConnectionString;
+import ajbc.utils.SeedDB;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 public class Runner {
 
 	public static void main(String[] args) {
 
-		ConnectionString connectionString = MyConnectionString.uri();
-		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString)
-				.serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
+		Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+		root.setLevel(Level.ERROR);
 
-		try (MongoClient mongoClient = MongoClients.create(settings);) {
+		// prepare codec registry
+		CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+		CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
 
-			// create new DB
-			final String DB_NAME = "Furniture"; 
-			String COLLECTION = "chairs";
-			MongoDatabase db = mongoClient.getDatabase(DB_NAME);
-
-//			// create collection
-//			MongoCollection<Document> chairsCollection = db.getCollection(COLLECTION);
-//			
-//			Chair chair = new Chair("IKEA","A-100",true,100,new Measurment(10,10,10));
-//			List<Chair> chairsList = createChairsList();
-//			
-//			ChairDAO chairDao = new ChairDAO(chairsCollection);
-//			
-			// check ChairDAO methods
-			// Insert
-//			chairDao.insertChairToDB(chair);
-//			chairDao.insertListOfChairToDB(chairsList);
+		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(MyConnectionString.uri())
+				// add codec registry
+				.codecRegistry(codecRegistry).serverApi(ServerApi.builder().version(ServerApiVersion.V1).build())
+				.build();
+		
+		try (MongoClient mongoClient = MongoClients.create(settings)) {
+			MongoDatabase DB = mongoClient.getDatabase("booking_reservations");
+//			SeedDB.createCustomersCollection(DB);
+//			SeedDB.createHotelsCollection(DB);
+			SeedDB.createOrdersCollection(DB);
 			
-			// Read 
-//			Chair chairByID = chairDao.getChairByID("62aee08e231310338fb5abbd");
-//			System.out.println("returned chair: " + chairByID);
-			
-//			List<Chair> stools = chairDao.getAllStools();
-//			System.out.println("All stools:");
-//			stools.forEach(System.out::println);
-			
-//			List<Chair> sameManufacturer = chairDao.getChairByManufacturer("IKEA");
-//			System.out.println("All chairs from IKEA:");
-//			sameManufacturer.forEach(System.out::println);
-			
-//			List<Chair> chairsIPriceRange = chairDao.getChairInPriceRange(20, 100);
-//			System.out.println("All chairs in the price range ");
-//			chairsIPriceRange.forEach(System.out::println);
-			
-//			List<String> manufacturers = Arrays.asList("IKEA","ACE");
-//			List<Chair> chairsByManufacturers = chairDao.getChairByManufacturersList(manufacturers);
-//			System.out.println("All chairs by manufacturers list: ");
-//			chairsByManufacturers.forEach(System.out::println);
-			
-//			List<Chair> chairsUnderHeight = chairDao.getChairUnderHeight(30);
-//			System.out.println("All chairs under height : ");
-//			chairsUnderHeight.forEach(System.out::println);
-			
-			// Update
-//			Chair chairByID = chairDao.getChairByID("62aee70410299437d105a932");
-//			chairByID.setManufacturer("IKEA-ISRAEL");
-//			chairByID.setPrice(123);
-//			chairByID.setMeasurment(new Measurment(5,5,5));
-//			Chair updatedChair = chairDao.updateChair(chairByID);
-//			System.out.println("updated chair: \n" + updatedChair);
-			
-//			Chair chairByID = chairDao.getChairByID("62aee08e231310338fb5abbd");
-//			chairByID.setManufacturer("IKEA-IKEA");
-//			chairByID.setPrice(155);
-//			Chair updatedChair = chairDao.updateChairAndReturnOldOne(chairByID);
-//			System.out.println("old chair before update : \n" + updatedChair);
-
-//			List<Chair> chairsUnderHeight = chairDao.getChairUnderHeight(100);
-//			chairsUnderHeight.stream().forEach(ch -> ch.setPrice(1000));
-//			chairDao.updateListOfChairs(chairsUnderHeight);
-			
-//			chairDao.addPillowToChair("62aee08e231310338fb5abbd", new Pillow(Shape.SQUARE,Color.BLU));
-			
-			// Delete
-//			System.out.println(chairDao.deleteChairByID("62aee08e231310338fb5abbd"));
-			
-//			chairDao.deleteChairsByManufacturer("ACE");
-			
-//			chairDao.deleteChairsWithEqualOrHeigherHeight(20);
 		}
 	}
 	
-//	public static List<Chair> createChairsList(){
-//		List<Chair> chairsList = new ArrayList<Chair>();
-//		chairsList.add( new Chair("HOME-CENTER","HM",false,60,new Measurment(4,5,6)));
-//		chairsList.add( new Chair("ACE","AC34",true,90,new Measurment(9,12,10)));
-//		chairsList.add( new Chair("BITILI","BT",false,400,new Measurment(30,10,23)));
-//		
-//		return chairsList;
-//	}
-
 }

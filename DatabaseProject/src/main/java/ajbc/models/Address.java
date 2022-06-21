@@ -7,15 +7,12 @@ public class Address {
 	private String city;
 	private String country;
 	
-	
 	public Address(String street, int number, String city, String country) {
-		this.street = street;
-		this.number = number;
-		this.city = city;
-		this.country = country;
+		setStreet(street);
+		setNumber(number);
+		setCity(city);
+		setCountry(country);
 	}
-	
-	public Address() {}
 
 	public String getStreet() {
 		return street;
@@ -53,6 +50,6 @@ public class Address {
 	public String toString() {
 		return "Address [street=" + street + ", number=" + number + ", city=" + city + ", country=" + country + "]";
 	}
-
+	
 	
 }
