@@ -15,25 +15,32 @@ public class Hotel {
 	private List<Room> rooms;
 	@BsonProperty(value="price_per_night")
 	private double pricePerNight;
-	private List<Order> orders;
+	private List<ObjectId> orders;
+	@BsonProperty(value="People_in_room")
+	private int peopleInRoom;
 	
 	public Hotel(){}
 	
-	public Hotel(HotelsName name, Address address, int rank, List<Room> rooms, double pricePerNight) {
+	public Hotel(HotelsName name, Address address, int rank, List<Room> rooms, double pricePerNight,int peopleInRoom) {
 		setName(name);
 		setAddress(address);
 		setRank(rank);
 		setRooms(rooms);
 		setPricePerNight(pricePerNight);
 		this.orders = new ArrayList<>();
+		setPeopleInRoom(peopleInRoom);
 	}
 	
 	
+	public void setPeopleInRoom(int peopleInRoom) {
+		this.peopleInRoom = peopleInRoom;
+	}
+
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
 
-	public void addOrder(Order order)
+	public void addOrder(ObjectId order)
 	{
 		this.orders.add(order);
 	}
@@ -68,15 +75,30 @@ public class Hotel {
 	public void setPricePerNight(double pricePerNight) {
 		this.pricePerNight = pricePerNight;
 	}
-	public List<Order> getOrders() {
+	public List<ObjectId> getOrders() {
 		return orders;
 	}
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<ObjectId> orders) {
 		this.orders = orders;
 	}
 	public ObjectId getId() {
 		return id;
 	}
+
+	public int getPeopleInRoom() {
+		return peopleInRoom;
+	}
+
+	@Override
+	public String toString() {
+		return "Hotel [id=" + id + ", name=" + name + ", address=" + address + ", rank=" + rank + ", rooms=" + rooms
+				+ ", pricePerNight=" + pricePerNight + ", orders=" + orders + ", PeopleInRoom=" + peopleInRoom + "]";
+	}
+	
+	
+
+	
+
 	
 	
 

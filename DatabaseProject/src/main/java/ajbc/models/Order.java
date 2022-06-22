@@ -18,6 +18,8 @@ public class Order {
 	private LocalDate startDate;
 	@BsonProperty(value="num_nights")
 	private int numNights;
+	@BsonProperty(value="end_date")
+	private LocalDate endDate;
 	@BsonProperty(value="total_price")
 	private double totalPrice;
 	@BsonProperty(value="num_people")
@@ -31,21 +33,19 @@ public class Order {
 		setCustomerId(customerId);
 		setOrderDate(orderDate);
 		setStartDate(startDate);
+		setEndDate(startDate.plusDays(numNights));
 		setNumNights(numNights);
 		setNumPeople(numPeople);
 	}
-	
 	
 	
 	public int getNumPeople() {
 		return numPeople;
 	}
 
-
 	public void setNumPeople(int numPeople) {
 		this.numPeople = numPeople;
 	}
-
 
 	public ObjectId getId() {
 		return id;
@@ -83,6 +83,13 @@ public class Order {
 	public void setNumNights(int numNights) {
 		this.numNights = numNights;
 	}
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
 	public double getTotalPrice() {
 		return totalPrice;
 	}
@@ -90,8 +97,14 @@ public class Order {
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", hotelId=" + hotelId + ", customerId=" + customerId + ", orderDate=" + orderDate
+				+ ", startDate=" + startDate + ", numNights=" + numNights + ", endDate=" + endDate + ", totalPrice="
+				+ totalPrice + ", numPeople=" + numPeople + "]";
+	}
 
 	
-	
+		
 }
