@@ -5,11 +5,8 @@ import org.bson.conversions.Bson;
 import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
 
-import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.BsonField;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
@@ -30,7 +27,6 @@ import java.util.function.Consumer;
 import static com.mongodb.client.model.Accumulators.sum;
 
 import static com.mongodb.client.model.Aggregates.*;
-import static com.mongodb.client.model.Accumulators.first;
 
 public class ReservationDAO {
 

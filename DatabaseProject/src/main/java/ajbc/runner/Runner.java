@@ -51,22 +51,20 @@ public class Runner {
 
 			ReservationDAO resDao = new ReservationDAO(DB);
 
-//			System.out.println("\r-------------Q1---------------\r");
-//			List<Order> ordersOfCustomer = resDao.getOrdersByCustomerId(new ObjectId("62b2be35ec4fa25fba4f4c3f"));
-//			ordersOfCustomer.forEach(System.out::println);
-//
-//			System.out.println("\r-------------Q2---------------\r");
-//			System.out.println("hotels in jerusalem: ");
-//			List<Hotel> hotelsByCity = resDao.getHotelsByCity("jerusalem");
-//			hotelsByCity.forEach(System.out::println);
+			System.out.println("\r-------------Q1---------------\r");
+			List<Order> ordersOfCustomer = resDao.getOrdersByCustomerId(new ObjectId("62b2be35ec4fa25fba4f4c3f"));
+			ordersOfCustomer.forEach(System.out::println);
+
+			System.out.println("\r-------------Q2---------------\r");
+			System.out.println("hotels in jerusalem: ");
+			List<Hotel> hotelsByCity = resDao.getHotelsByCity("jerusalem");
+			hotelsByCity.forEach(System.out::println);
 			
 			System.out.println("\r-------------Q6---------------\r");
 			resDao.sortHotelsByTotalIncome();
 			
-			
-
-//			System.out.println("\r-------------Q7---------------\r");
-//			resDao.totalPricesOfAllOrders();
+			System.out.println("\r-------------Q7---------------\r");
+			resDao.totalPricesOfAllOrders();
 		}
 	}
 
